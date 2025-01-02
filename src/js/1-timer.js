@@ -23,6 +23,7 @@ function validateDate(selectedDates) {
       userSelectedDate = selectedDate;
       startButton.disabled = false;
     } else {
+      userSelectedDate = null;
       iziToast.error({
         title: 'Error',
         message: 'Please choose a date in the future',
@@ -64,6 +65,8 @@ function updateTimerDisplay() {
   const timeRemaining = userSelectedDate - new Date();
 
   if (timeRemaining <= 0) {
+    clearInterval(countdownInterval);
+    countdownInterval = null;
     daysDisplay.textContent = '00';
     hoursDisplay.textContent = '00';
     minutesDisplay.textContent = '00';
@@ -86,7 +89,7 @@ function updateTimerDisplay() {
   }
 }
 startButton.addEventListener('click', function () {
-  if (userSelectedDate) {
+  if (userSelectedDate && !countdownInterval) {
     startButton.disabled = true;
     input.disabled = true;
 
